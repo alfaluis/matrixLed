@@ -7,42 +7,39 @@
 				<extensions>
 					<extension id="org.eclipse.cdt.core.ELF" point="org.eclipse.cdt.core.BinaryParser"/>
 					<extension id="org.eclipse.cdt.core.GLDErrorParser" point="org.eclipse.cdt.core.ErrorParser"/>
-					<extension id="org.eclipse.cdt.core.MakeErrorParser" point="org.eclipse.cdt.core.ErrorParser"/>
 					<extension id="org.eclipse.cdt.core.GCCErrorParser" point="org.eclipse.cdt.core.ErrorParser"/>
+					<extension id="org.eclipse.cdt.core.MakeErrorParser" point="org.eclipse.cdt.core.ErrorParser"/>
 				</extensions>
 			</storageModule>
 			<storageModule moduleId="cdtBuildSystem" version="4.0.0">
 				<configuration artifactName="${ProjName}" buildProperties="" description="" id="io.sloeber.core.toolChain.release.1270602895" name="Release" parent="org.eclipse.cdt.build.core.emptycfg">
 					<folderInfo id="io.sloeber.core.toolChain.release.1270602895.755575822" name="/" resourcePath="">
-						<toolChain id="io.sloeber.core.toolChain.release.1583181439" name="Arduino Toolchain (Sloeber edition)" superClass="io.sloeber.core.toolChain.release">
+						<toolChain id="io.sloeber.core.toolChain.release.1583181439" name="Arduino Toolchain (Sloeber edition)" nonInternalBuilderId="io.sloeber.sketch.builder" resourceTypeBasedDiscovery="false" superClass="io.sloeber.core.toolChain.release">
 							<targetPlatform archList="all" binaryParser="org.eclipse.cdt.core.ELF" id="io.sloeber.targetplatform.1171450169" name="Arduino Target" osList="all" superClass="io.sloeber.targetplatform"/>
-							<builder buildPath="${workspace_loc:/matrixLed}/Release" id="io.sloeber.sketch.builder.1799456404" keepEnvironmentInBuildfile="false" managedBuildOn="true" name="Arduino sketch builder" superClass="io.sloeber.sketch.builder"/>
+							<builder buildPath="${workspace_loc:/matrixLed}/Release" id="io.sloeber.sketch.builder.2134928902" keepEnvironmentInBuildfile="false" name="Arduino sketch builder" superClass="io.sloeber.sketch.builder"/>
 							<tool id="io.sloeber.tool.sketch.compiler.cpp.29251239" name="Arduino C++ Compiler" superClass="io.sloeber.tool.sketch.compiler.cpp">
-								<option id="io.sloeber.compiler.cpp.sketch.option.incpath.66935826" name="Include Paths (-I)" superClass="io.sloeber.compiler.cpp.sketch.option.incpath" valueType="includePath">
+								<option id="io.sloeber.compiler.cpp.sketch.option.incpath.66935826" name="Include Paths (-I)" superClass="io.sloeber.compiler.cpp.sketch.option.incpath" useByScannerDiscovery="false" valueType="includePath">
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/matrixLed/core/core}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/matrixLed/core/variant}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/matrixLed/libraries/FastLED}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/matrixLed/eclipseWorkspace}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/matrixLed/libraries/MemoryFree}&quot;"/>
 								</option>
 								<inputType id="io.sloeber.compiler.cpp.sketch.input.55212468" name="CPP source files" superClass="io.sloeber.compiler.cpp.sketch.input"/>
 							</tool>
 							<tool id="io.sloeber.tool.compiler.c.755568845" name="Arduino C Compiler" superClass="io.sloeber.tool.compiler.c">
-								<option id="io.sloeber.compiler.c.sketch.option.incpath.75006702" name="Include Paths (-I)" superClass="io.sloeber.compiler.c.sketch.option.incpath" valueType="includePath">
+								<option id="io.sloeber.compiler.c.sketch.option.incpath.75006702" name="Include Paths (-I)" superClass="io.sloeber.compiler.c.sketch.option.incpath" useByScannerDiscovery="false" valueType="includePath">
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/matrixLed/core/core}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/matrixLed/core/variant}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/matrixLed/libraries/FastLED}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/matrixLed/eclipseWorkspace}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/matrixLed/libraries/MemoryFree}&quot;"/>
 								</option>
 								<inputType id="io.sloeber.compiler.c.sketch.input.1864628763" name="C Source Files" superClass="io.sloeber.compiler.c.sketch.input"/>
 							</tool>
 							<tool id="io.sloeber.tool.sketch.compiler.s.556466602" name="Arduino Assembler" superClass="io.sloeber.tool.sketch.compiler.s">
-								<option id="io.sloeber.compiler.asm.sketch.option.incpath.1606172594" name="Include Paths (-I)" superClass="io.sloeber.compiler.asm.sketch.option.incpath" valueType="includePath">
+								<option id="io.sloeber.compiler.asm.sketch.option.incpath.1606172594" name="Include Paths (-I)" superClass="io.sloeber.compiler.asm.sketch.option.incpath" useByScannerDiscovery="false" valueType="includePath">
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/matrixLed/core/core}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/matrixLed/core/variant}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/matrixLed/libraries/FastLED}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/matrixLed/eclipseWorkspace}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/matrixLed/libraries/MemoryFree}&quot;"/>
 								</option>
 								<inputType id="io.sloeber.compiler.S.sketch.input.1248167607" name="Assembly source files" superClass="io.sloeber.compiler.S.sketch.input"/>
@@ -64,10 +61,18 @@
 	<storageModule moduleId="cdtBuildSystem" version="4.0.0">
 		<project id="matrixLed.null.1009728697" name="matrixLed"/>
 	</storageModule>
+	<storageModule moduleId="org.eclipse.cdt.core.LanguageSettingsProviders"/>
+	<storageModule moduleId="refreshScope" versionNumber="2">
+		<configuration configurationName="Release">
+			<resource resourceType="PROJECT" workspacePath="/matrixLed"/>
+		</configuration>
+	</storageModule>
+	<storageModule moduleId="org.eclipse.cdt.make.core.buildtargets"/>
 	<storageModule moduleId="scannerConfiguration">
 		<autodiscovery enabled="true" problemReportingEnabled="true" selectedProfileId=""/>
+		<scannerConfigBuildInfo instanceId="io.sloeber.core.toolChain.release.1270602895">
+			<autodiscovery enabled="true" problemReportingEnabled="true" selectedProfileId=""/>
+		</scannerConfigBuildInfo>
 	</storageModule>
-	<storageModule moduleId="org.eclipse.cdt.core.LanguageSettingsProviders"/>
-	<storageModule moduleId="refreshScope"/>
-	<storageModule moduleId="org.eclipse.cdt.make.core.buildtargets"/>
+	<storageModule moduleId="org.eclipse.cdt.internal.ui.text.commentOwnerProjectMappings"/>
 </cproject>

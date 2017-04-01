@@ -1,14 +1,14 @@
-#include <Arduino.h>
-#include "FastLED.h"
-#include <HardwareSerial.h>
 #include <avr/pgmspace.h>
+#include <Arduino.h>
+#include <FastLED.h>
+#include <HardwareSerial.h>
 #include <MemoryFree.h>
 
 #include "alpabethic8x8.hpp"
 
 // How many leds in your strip?
 #define HEIGH_MATRIX 8
-#define WIDTH_MATRIX 24
+#define WIDTH_MATRIX 8
 
 #define NUM_LEDS (HEIGH_MATRIX * WIDTH_MATRIX)
 
@@ -23,19 +23,16 @@
 void textContatenation(String&, byte []);
 void updateMatrix(byte [], CRGB [], uint32_t,  int, int = 500);
 String createInterString(String);
-uint8_t returnIndexVowel(char text){
-	return (uint8_t)text - 32;
-}
+uint8_t returnIndexVowel(char);
 
 // variable definition
 CRGB leds[NUM_LEDS];
+char color[7] = {'0','0','0','0','F','F','\0'};
 String inputString = "";
 int stringLength = 0;
 boolean stringComplete = false;  // whether the string is complete
 boolean newText = false;
 byte byteText [300];
-boolean start_process = true;
-
 
 void setup() {
 	Serial.begin(9600);
@@ -68,16 +65,17 @@ void loop() {
 	}
 
 	if (newText) {
-		start_process = false;
 		int lengthScroll = (stringLength - WIDTH_MATRIX/8) * wordSize[0];
 		Serial.println(lengthScroll);
+		uint32_t colorNum = strtol(color, NULL, 16);
 		// for to scroll texts
 		for (int scroll = 0; scroll < lengthScroll; scroll++) {
-			updateMatrix(byteText, leds, CRGB::Lavender, scroll, 100);
+			updateMatrix(byteText, leds, colorNum, scroll, 100);
 		}
 	}
 	else {
 		String defaultText = "DEFAULT TEXT";
+		uint32_t colorNum = strtol(color, NULL, 16);
 		defaultText = createInterString(defaultText);
 		textContatenation(defaultText, byteText);
 		stringLength = defaultText.length();
@@ -85,7 +83,7 @@ void loop() {
 		Serial.println(lengthScroll);
 		// for to scroll texts
 		for (int scroll = 0; scroll < lengthScroll; scroll++) {
-			updateMatrix(byteText, leds, CRGB::BlueViolet, scroll, 100);
+			updateMatrix(byteText, leds, colorNum, scroll, 100);
 		}
 	}
 
@@ -96,7 +94,9 @@ void loop() {
 
 }
 
-
+uint8_t returnIndexVowel(char text){
+	return (uint8_t)text - 32;
+}
 
 void textContatenation(String& text, byte text2matrix[]) {
 
@@ -109,13 +109,13 @@ void textContatenation(String& text, byte text2matrix[]) {
 	}
 }
 
-void updateMatrix(byte matrixText[], CRGB leds[], uint32_t color, int scroll, int updateTime) {
+void updateMatrix(byte matrixText[], CRGB leds[], uint32_t rgb, int scroll, int updateTime) {
 	// show as many words as possible
 	FastLED.clear(1);
 	for (int col = scroll; col < WIDTH_MATRIX + scroll; col++) {
 		for (int i = 0; i < HEIGH_MATRIX; i++) {
 			if ((matrixText[col] << i & 0x80) == 0x80) {
-				leds[i + (col - scroll) * 8] = color;
+				leds[i + (col - scroll) * 8] = rgb;
 			} else {
 				leds[i + (col - scroll) * 8] = CRGB::Black;
 			}
@@ -139,8 +139,14 @@ void serialEvent() {
 			stringComplete = true;
 		}
 		else {
-			inputString += a;
-			index++;
+			if(index <= 5){
+				color[index] = a;
+				index ++;
+			}
+			else{
+				inputString += a;
+				index ++;
+			}
 		}
 		delay(2);
 	}
@@ -156,4 +162,3 @@ String createInterString(String text){
 	}
 	return text;
 }
-
