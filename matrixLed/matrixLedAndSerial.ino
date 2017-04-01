@@ -8,7 +8,7 @@
 
 // How many leds in your strip?
 #define HEIGH_MATRIX 8
-#define WIDTH_MATRIX 8
+#define WIDTH_MATRIX 16
 
 #define NUM_LEDS (HEIGH_MATRIX * WIDTH_MATRIX)
 
@@ -19,13 +19,15 @@
 #define CLOCK_PIN 13
 #define HEIGH 8
 
-// function definition
+// **************** functions definition *************************
+
 void textContatenation(String&, byte []);
 void updateMatrix(byte [], CRGB [], uint32_t,  int, int = 500);
 String createInterString(String);
 uint8_t returnIndexVowel(char);
 
-// variable definition
+
+// **************** Variable definition **************************
 CRGB leds[NUM_LEDS];
 char color[7] = {'0','0','0','0','F','F','\0'};
 String inputString = "";
@@ -34,6 +36,7 @@ boolean stringComplete = false;  // whether the string is complete
 boolean newText = false;
 byte byteText [300];
 
+// ********************* main code *******************************
 void setup() {
 	Serial.begin(9600);
 	// create empty string with 200 byte of space
@@ -51,11 +54,9 @@ void loop() {
 
 	if (stringComplete) {
 		FastLED.clear(1);
-
 	    Serial.println(inputString);
 		Serial.print(F("large String: "));
 		Serial.println(inputString.length());
-
 		stringComplete = false;
 	    newText = true;
 	    inputString = createInterString(inputString);
@@ -63,7 +64,7 @@ void loop() {
 	    stringLength = inputString.length();
 	    inputString="";
 	}
-
+	// show text from serial or default text
 	if (newText) {
 		int lengthScroll = (stringLength - WIDTH_MATRIX/8) * wordSize[0];
 		Serial.println(lengthScroll);
@@ -87,12 +88,13 @@ void loop() {
 		}
 	}
 
-
 	Serial.print(F("freeMemory()="));
 	Serial.println(freeMemory());
-	delay(1000);
+	delay(500);
 
 }
+
+// ******************* FUNCTIONS *******************************
 
 uint8_t returnIndexVowel(char text){
 	return (uint8_t)text - 32;
