@@ -8,7 +8,7 @@
 
 // How many leds in your strip?
 #define HEIGH_MATRIX 8
-#define WIDTH_MATRIX 16
+#define WIDTH_MATRIX 40
 
 #define NUM_LEDS (HEIGH_MATRIX * WIDTH_MATRIX)
 
