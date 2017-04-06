@@ -1,13 +1,13 @@
-
-import serial
+import serial.tools.list_ports
 import sys
 import glob
 import time
+from serial import Serial, tools, SerialException, SerialTimeoutException
 
 
 class SerialCommunication(object):
     def __init__(self):
-        self.serial_conn = serial.Serial()
+        self.serial_conn = Serial()
         self.port_list = []
         self.os = sys.platform
         self.baud_rate = 9600
@@ -17,25 +17,31 @@ class SerialCommunication(object):
         self.timeout = 10
 
     def list_serial_ports(self):
-
         # List all ports
         if self.os.startswith('linux'):
             print('Linux system: ' + self.os)
             ports = glob.glob('/dev/tty[A-Za-z]*')
+            for port in ports:
+                try:
+                    s = Serial(port)
+                    s.close()
+                    self.port_list.append(port)
+                except SerialException:
+                    # print('Error in open port: ' + port)
+                    pass
+
         elif self.os.startswith('win'):
             print('Windows system: ' + self.os)
-            # complete this part
+            print(tools.list_ports.comports())
+            try:
+                ports = list(tools.list_ports.comports())
+                for port in ports:
+                    print(port[0])
+                    self.port_list.append(port[0])
+            except SerialException:
+                print("Error open port")
         else:
             print("nothing to do")
-
-        for port in ports:
-            try:
-                s = serial.Serial(port)
-                s.close()
-                self.port_list.append(port)
-            except serial.SerialException:
-                # print('Error in open port: ' + port)
-                pass
 
         return self.port_list
 
@@ -46,7 +52,7 @@ class SerialCommunication(object):
         self.serial_conn.bytesize = 8
         self.serial_conn.stopbits = 1
         self.serial_conn.timeout = 10
-        if self.serial_conn.is_open:
+        if self.serial_conn.isOpen():
             print('Serial port connection open successful')
 
         return self.serial_conn
@@ -61,16 +67,16 @@ class SerialCommunication(object):
             self.serial_conn.stopbits = stop_bit
             self.serial_conn.timeout = timeout
             print('Serial port connection open successful')
-        except serial.SerialException:
+        except SerialException:
             print('Port can not be open. Check configuration - '
-                  + serial.SerialException)
+                  + SerialException)
 
         return self.serial_conn
 
     def bytes_available(self):
         return self.serial_conn.inWaiting()
 
-    def read_bytes(self, num_bytes=1):
+    def read_bytes(self, num_bytes='1'):
         if num_bytes == 'all':
             return self.serial_conn.read(self.bytes_available())
         else:
@@ -79,30 +85,38 @@ class SerialCommunication(object):
                 return self.serial_conn.read(n)
             except ValueError:
                 print('the value for num_bytes should be a number not ' +
-                      type(num_bytes))
+                      str(type(num_bytes)))
                 return None
             except serial.SerialException:
                 print('Serial port not open properly' +
-                      serial.SerialException)
+                      str(SerialException))
                 return None
-            except serial.SerialTimeoutException:
+            except SerialTimeoutException:
                 print('Timeout exception. check number of bytes passed')
 
     def close_communication(self):
         try:
             self.serial_conn.close()
             self.serial_conn.__del__()
-            print('port close succesful')
-        except serial.SerialException:
+            print('port close successful')
+        except SerialException:
             print('port can not be closed!')
             sys.exit(-1)
 
-    def write_data(self, data=''):
+    def write_data(self, data='', end_line=''):
+        if end_line == 'CR':
+            data = data + '/r'
+        elif end_line == 'NL':
+            data = data + '/n'
+        elif end_line == 'CR/NL':
+            data = data + '/r/n'
+
         try:
+            data = data
             self.serial_conn.write(data.encode())
-        except serial.SerialException:
+        except SerialException:
             print('Can not be write data to the port. ' +
-                  serial.SerialException)
+                  str(SerialException))
 
 if __name__ == '__main__':
     flag = False
@@ -122,7 +136,7 @@ if __name__ == '__main__':
     ex.write_data('0')
     time.sleep(2)
     print(ex.bytes_available())
-    text = ex.read_bytes(10)
+    text = ex.read_bytes('10')
     print(text)
     ex.write_data('home')
     time.sleep(2)
