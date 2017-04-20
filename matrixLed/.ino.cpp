@@ -2,14 +2,14 @@
 //This is a automatic generated file
 //Please do not modify this file
 //If you touch this file your change will be overwritten during the next build
-//This file has been generated on 2017-04-20 05:30:13
+//This file has been generated on 2017-04-20 06:18:05
 
 #include "Arduino.h"
 #include <avr/pgmspace.h>
 #include <Arduino.h>
 #include <FastLED.h>
-#include <HardwareSerial.h>
 #include <MemoryFree.h>
+#include <SoftwareSerial.h>
 #include "alpabethic8x8.hpp"
 void setup() ;
 void loop() ;

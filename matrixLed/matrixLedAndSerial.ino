@@ -1,10 +1,13 @@
 #include <avr/pgmspace.h>
 #include <Arduino.h>
 #include <FastLED.h>
-#include <HardwareSerial.h>
 #include <MemoryFree.h>
-
+#include <SoftwareSerial.h>
 #include "alpabethic8x8.hpp"
+
+
+SoftwareSerial mySerial(10, 11); // RX, TX
+
 
 // How many leds in your strip?
 #define HEIGH_MATRIX 8
