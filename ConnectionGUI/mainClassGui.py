@@ -25,13 +25,17 @@ class MainClass(QtWidgets.QMainWindow, Ui_MiClassGui, SerialCommunication):
         self.btn_stop.clicked.connect(self.close_serial_communication)
         self.btn_send.clicked.connect(self.send_text)
         self.txt_send.returnPressed.connect(self.send_text)
+        self.btn_color.clicked.connect(self.get_color)
 
         # private attribute to check if will be used the self configuration
         self.__self_configuration = False
         self.port_selected = ''
+        self.color = '00FF00'
+
+        # create timer (thread) execution
         self.timer = QtCore.QTimer()
         self.timer.setInterval(1000)
-        self.timer.timeout.connect(self.do_process)
+        self.timer.timeout.connect(self.timer_process)
         self.__fill_cmb_end_line()
 
     def __fill_dialog(self):
@@ -52,11 +56,11 @@ class MainClass(QtWidgets.QMainWindow, Ui_MiClassGui, SerialCommunication):
             self.dialog.ui.cmb_ports.addItem(port)
 
     def __fill_cmb_end_line(self):
+        """ private method. It is used to fill the end line combo box"""
         self.cmb_endline.addItem('none')
         self.cmb_endline.addItem('CR')
         self.cmb_endline.addItem('NL')
         self.cmb_endline.addItem('CR/NL')
-        pass
 
     def accept(self):
         """Function called once the config dialog configuration was accepted"""
@@ -74,6 +78,11 @@ class MainClass(QtWidgets.QMainWindow, Ui_MiClassGui, SerialCommunication):
     def reject(self):
         print("reject here")
         pass
+
+    def get_color(self):
+        color_obj = QtWidgets.QColorDialog.getColor()
+        self.color = color_obj.name().replace('#', '').upper()
+        print(self.color)
 
     def dialog_config_port(self):
         """ 
@@ -115,25 +124,30 @@ class MainClass(QtWidgets.QMainWindow, Ui_MiClassGui, SerialCommunication):
     def send_text(self):
         """ 
         Function called once the send_button is pressed or if the enter button is pressed in the text field.
-        It send wrote text to serial port 
+        It send wrote text to serial port. Note that in order to avoid problem with timer process, the timer process is
+         disable after finish the write task.
         """
         self.timer.stop()
-        wrote_text = self.txt_send.text()
+        wrote_text = self.color + self.txt_send.text()
         print(wrote_text)
         port = self.cmb_ports.currentText()
         self.txt_send.setText('')
-        self.textEdit_2.append(port + '>> ' + wrote_text)
+        self.txt_write.append(port + '>> ' + wrote_text)
         self.write_data(wrote_text, self.cmb_endline.currentText())
         self.timer.start(1000)
 
-    def do_process(self):
+    def timer_process(self):
+        """ 
+        Process which will be executed each second. It check if there are some data in the serial port and get it 
+        if apply.
+        """
         print('Bytes available: ' + str(self.serial_conn.inWaiting()))
         if self.serial_conn.inWaiting() > 0:
             text = 'Bytes available: ' + str(self.serial_conn.inWaiting())
-            self.textEdit_2.append(text)
+            self.txt_write.append(text)
             # received_data = self.serial_conn.read(self.serial_conn.inWaiting())
             received_data = self.read_bytes('all')
-            self.textEdit_2.append(received_data.decode())
+            self.txt_write.append(received_data.decode())
         else:
             print('Nothing to print...')
 

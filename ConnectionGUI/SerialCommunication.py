@@ -46,7 +46,7 @@ class SerialCommunication(object):
         return self.port_list
 
     def open_serial_default_configuration(self, port_name):
-        self.serial_conn = serial.Serial(port_name)
+        self.serial_conn = Serial(port_name)
         self.serial_conn.baudrate = 9600
         self.serial_conn.parity = 'N'
         self.serial_conn.bytesize = 8
@@ -60,7 +60,7 @@ class SerialCommunication(object):
     def open_serial_port(self, port_name, baud_rate=9600,
                          parity='N', byte_size=8, stop_bit=1, timeout=10):
         try:
-            self.serial_conn = serial.Serial(port_name)
+            self.serial_conn = Serial(port_name)
             self.serial_conn.baudrate = baud_rate
             self.serial_conn.parity = parity
             self.serial_conn.bytesize = byte_size
@@ -87,7 +87,7 @@ class SerialCommunication(object):
                 print('the value for num_bytes should be a number not ' +
                       str(type(num_bytes)))
                 return None
-            except serial.SerialException:
+            except SerialException:
                 print('Serial port not open properly' +
                       str(SerialException))
                 return None
