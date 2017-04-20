@@ -8,7 +8,7 @@
 
 // How many leds in your strip?
 #define HEIGH_MATRIX 8
-#define WIDTH_MATRIX 40
+#define WIDTH_MATRIX 8
 
 #define NUM_LEDS (HEIGH_MATRIX * WIDTH_MATRIX)
 
@@ -32,6 +32,7 @@ CRGB leds[NUM_LEDS];
 char color[7] = {'0','0','0','0','F','F','\0'};
 String inputString = "";
 int stringLength = 0;
+
 boolean stringComplete = false;  // whether the string is complete
 boolean newText = false;
 byte byteText [300];
@@ -39,30 +40,23 @@ byte byteText [300];
 // ********************* main code *******************************
 void setup() {
 	Serial.begin(9600);
-	// create empty string with 200 byte of space
-	//myText.reserve(200);
-    // Uncomment/edit one of the following lines for your leds arrangement.
-    // FastLED.addLeds<WS2811, DATA_PIN, RGB>(leds, NUM_LEDS);
-     FastLED.addLeds<WS2812, DATA_PIN, GRB>(leds, NUM_LEDS);
-    // FastLED.addLeds<WS2812B, DATA_PIN, RGB>(leds, NUM_LEDS);
-  	// FastLED.addLeds<NEOPIXEL, DATA_PIN>(leds, NUM_LEDS);
+    FastLED.addLeds<WS2812, DATA_PIN, GRB>(leds, NUM_LEDS);
 
 }
 
 void loop() {
 	FastLED.setBrightness(10);
-
 	if (stringComplete) {
 		FastLED.clear(1);
 	    Serial.println(inputString);
 		Serial.print(F("large String: "));
 		Serial.println(inputString.length());
 		stringComplete = false;
-	    newText = true;
-	    inputString = createInterString(inputString);
-	    textContatenation(inputString, byteText);
-	    stringLength = inputString.length();
-	    inputString="";
+		newText = true;
+		inputString = createInterString(inputString);
+		textContatenation(inputString, byteText);
+		stringLength = inputString.length();
+		inputString="";
 	}
 	// show text from serial or default text
 	if (newText) {
@@ -137,7 +131,7 @@ void serialEvent() {
 	int index = 0;
 	while (Serial.available()) {
 		char a = Serial.read();
-		if (a == '\r') {
+		if (a == '\r' || a == '\n') {
 			stringComplete = true;
 		}
 		else {
