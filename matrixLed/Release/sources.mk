@@ -39,4 +39,5 @@ SUBDIRS := \
 core/core \
 libraries/FastLED \
 libraries/MemoryFree \
+libraries/SoftwareSerial/src \
 

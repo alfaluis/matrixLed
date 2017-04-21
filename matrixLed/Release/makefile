@@ -9,6 +9,7 @@ RM := del
 # All of the sources participating in the build are defined here
 -include sources.mk
 -include subdir.mk
+-include libraries\SoftwareSerial\src/subdir.mk
 -include libraries\MemoryFree/subdir.mk
 -include libraries\FastLED/subdir.mk
 -include core\core/subdir.mk

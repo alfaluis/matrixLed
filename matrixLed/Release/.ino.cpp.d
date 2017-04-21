@@ -42,9 +42,10 @@
  D:\git\libraries\FastLED/fastspi_bitbang.h \
  D:\git\libraries\FastLED/fastled_delay.h \
  D:\git\libraries\FastLED/chipsets.h \
- C:\sloeber\arduinoPlugin\packages\arduino\hardware\avr\1.6.17\cores\arduino/HardwareSerial.h \
- D:\git\libraries\MemoryFree/MemoryFree.h ../alpabethic8x8.hpp \
- ../matrixLedAndSerial.ino
+ D:\git\libraries\MemoryFree/MemoryFree.h \
+ C:\sloeber\arduinoPlugin\packages\arduino\hardware\avr\1.6.17\libraries\SoftwareSerial\src/SoftwareSerial.h \
+ C:\sloeber\arduinoPlugin\packages\arduino\hardware\avr\1.6.17\cores\arduino/Stream.h \
+ ../alpabethic8x8.hpp ../matrixLedAndSerial.ino
 
 C:\sloeber\arduinoPlugin\packages\arduino\hardware\avr\1.6.17\cores\arduino/Arduino.h:
 
@@ -144,9 +145,11 @@ D:\git\libraries\FastLED/fastled_delay.h:
 
 D:\git\libraries\FastLED/chipsets.h:
 
-C:\sloeber\arduinoPlugin\packages\arduino\hardware\avr\1.6.17\cores\arduino/HardwareSerial.h:
-
 D:\git\libraries\MemoryFree/MemoryFree.h:
+
+C:\sloeber\arduinoPlugin\packages\arduino\hardware\avr\1.6.17\libraries\SoftwareSerial\src/SoftwareSerial.h:
+
+C:\sloeber\arduinoPlugin\packages\arduino\hardware\avr\1.6.17\cores\arduino/Stream.h:
 
 ../alpabethic8x8.hpp:
 
