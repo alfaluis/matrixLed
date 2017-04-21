@@ -62,9 +62,9 @@ class SerialCommunication(object):
         try:
             self.serial_conn = Serial(port_name)
             self.serial_conn.baudrate = baud_rate
-            self.serial_conn.parity = parity
-            self.serial_conn.bytesize = byte_size
-            self.serial_conn.stopbits = stop_bit
+            self.serial_conn.parity = serial.PARITY_NONE
+            self.serial_conn.bytesize = serial.EIGHTBITS
+            self.serial_conn.stopbits = serial.STOPBITS_ONE
             self.serial_conn.timeout = timeout
             print('Serial port connection open successful')
         except SerialException:
@@ -103,17 +103,17 @@ class SerialCommunication(object):
             print('port can not be closed!')
             sys.exit(-1)
 
-    def write_data(self, data='', end_line=''):
-        if end_line == 'CR':
-            data = data + '/r'
-        elif end_line == 'NL':
-            data = data + '/n'
-        elif end_line == 'CR/NL':
-            data = data + '/r/n'
+    def write_data(self, data, end_line=''):
 
+        if end_line == 'CR':
+            send_text = (data + '\r').encode('ascii')
+        elif end_line == 'NL':
+            send_text = (data + '\n').encode('ascii')
+        elif end_line == 'CR/NL':
+            send_text = (data + '\r\n').encode('ascii')
         try:
-            data = data
-            self.serial_conn.write(data.encode())
+            print(send_text)
+            self.serial_conn.write(send_text)
         except SerialException:
             print('Can not be write data to the port. ' +
                   str(SerialException))
