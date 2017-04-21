@@ -62,9 +62,9 @@ class SerialCommunication(object):
         try:
             self.serial_conn = Serial(port_name)
             self.serial_conn.baudrate = baud_rate
-            self.serial_conn.parity = serial.PARITY_NONE
-            self.serial_conn.bytesize = serial.EIGHTBITS
-            self.serial_conn.stopbits = serial.STOPBITS_ONE
+            self.serial_conn.parity = parity
+            self.serial_conn.bytesize = byte_size
+            self.serial_conn.stopbits = stop_bit
             self.serial_conn.timeout = timeout
             print('Serial port connection open successful')
         except SerialException:
