@@ -4,3 +4,4 @@ ConnectionGUI/.idea/
 matrixLed/.ino.cpp
 matrixLed/Release/*
 matrixLed/copia.ino
+matrixLed/core/*
