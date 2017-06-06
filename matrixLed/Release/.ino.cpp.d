@@ -9,7 +9,7 @@
  C:\sloeber\arduinoPlugin\packages\arduino\hardware\avr\1.6.17\cores\arduino/Printable.h \
  C:\sloeber\arduinoPlugin\packages\arduino\hardware\avr\1.6.17\cores\arduino/USBAPI.h \
  C:\sloeber\arduinoPlugin\packages\arduino\hardware\avr\1.6.17\cores\arduino/Arduino.h \
- C:\sloeber\arduinoPlugin\packages\arduino\hardware\avr\1.6.17\variants\standard/pins_arduino.h \
+ C:\sloeber\arduinoPlugin\packages\arduino\hardware\avr\1.6.17\variants\mega/pins_arduino.h \
  D:\git\libraries\FastLED/FastLED.h D:\git\libraries\FastLED/cpp_compat.h \
  D:\git\libraries\FastLED/FastLED.h \
  D:\git\libraries\FastLED/fastled_config.h \
@@ -67,7 +67,7 @@ C:\sloeber\arduinoPlugin\packages\arduino\hardware\avr\1.6.17\cores\arduino/USBA
 
 C:\sloeber\arduinoPlugin\packages\arduino\hardware\avr\1.6.17\cores\arduino/Arduino.h:
 
-C:\sloeber\arduinoPlugin\packages\arduino\hardware\avr\1.6.17\variants\standard/pins_arduino.h:
+C:\sloeber\arduinoPlugin\packages\arduino\hardware\avr\1.6.17\variants\mega/pins_arduino.h:
 
 D:\git\libraries\FastLED/FastLED.h:
 

@@ -2,3 +2,5 @@ ConnectionGUI/QtDesignerModel/
 ConnectionGUI/__pycache__/
 ConnectionGUI/.idea/
 matrixLed/.ino.cpp
+matrixLed/Release/*
+matrixLed/copia.ino

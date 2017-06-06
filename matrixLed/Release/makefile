@@ -80,7 +80,7 @@ D:/git/matrixLed/matrixLed/Release/arduino.ar: $(AR_OBJ)
 
 matrixLed.elf: $(LINK_OBJ) $(AR)
 	@echo 'Starting combiner'
-	"C:\sloeber\/arduinoPlugin/packages/arduino/tools/avr-gcc/4.9.2-atmel3.5.3-arduino2/bin/avr-gcc" -Wall -Wextra -Os -g -flto -fuse-linker-plugin -Wl,--gc-sections -mmcu=atmega328p -o "D:\git\matrixLed\matrixLed/Release/matrixLed.elf"   $(LINK_OBJ) $(AR)   D:/git/matrixLed/matrixLed/Release/arduino.ar  "-LD:\git\matrixLed\matrixLed/Release" -lm
+	"C:\sloeber\/arduinoPlugin/packages/arduino/tools/avr-gcc/4.9.2-atmel3.5.3-arduino2/bin/avr-gcc" -Wall -Wextra -Os -Wl,--gc-sections,--relax -mmcu=atmega2560 -o "D:\git\matrixLed\matrixLed/Release/matrixLed.elf"   $(LINK_OBJ) $(AR)   D:/git/matrixLed/matrixLed/Release/arduino.ar  "-LD:\git\matrixLed\matrixLed/Release" -lm
 	@echo 'Finished building: $@'
 	@echo ' '
 

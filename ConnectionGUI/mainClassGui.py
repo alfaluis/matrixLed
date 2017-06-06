@@ -29,6 +29,7 @@ class MainClass(QtWidgets.QMainWindow, Ui_MiClassGui, SerialCommunication):
 
         # private attribute to check if will be used the self configuration
         self.__self_configuration = False
+        self.__filled_dialog = False
         self.port_selected = ''
         self.color = '00FF00'
 
@@ -46,7 +47,7 @@ class MainClass(QtWidgets.QMainWindow, Ui_MiClassGui, SerialCommunication):
         """
         # fill baud rate combo box in
         list_baudrate = ['300', '600', '1200', '2400', '4800', '9600', '14400',
-                         '19200', '28800', '38400', '57600', '115200']
+                         '19200', '38400', '57600', '115200']
         for baud in list_baudrate:
             self.dialog.ui.cmb_baudrate.addItem(baud)
 
@@ -92,7 +93,9 @@ class MainClass(QtWidgets.QMainWindow, Ui_MiClassGui, SerialCommunication):
          :return: Nothing
         """
         print('opening dialog')
-        self.__fill_dialog()
+        if not self.__filled_dialog:
+            self.__fill_dialog()
+            self.__filled_dialog = True
         self.dialog.show()
 
     def close_application(self):
