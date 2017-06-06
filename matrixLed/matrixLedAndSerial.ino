@@ -1,10 +1,13 @@
 #include <avr/pgmspace.h>
 #include <Arduino.h>
 #include <FastLED.h>
-#include <HardwareSerial.h>
 #include <MemoryFree.h>
-
+#include <SoftwareSerial.h>
 #include "alpabethic8x8.hpp"
+
+
+SoftwareSerial mySerial(10, 11); // RX, TX
+
 
 // How many leds in your strip?
 #define HEIGH_MATRIX 8
@@ -25,6 +28,7 @@ void textContatenation(String&, byte []);
 void updateMatrix(byte [], CRGB [], uint32_t,  int, int = 500);
 String createInterString(String);
 uint8_t returnIndexVowel(char);
+void mySerialEvent();
 
 
 // **************** Variable definition **************************
@@ -40,15 +44,20 @@ byte byteText [300];
 // ********************* main code *******************************
 void setup() {
 	Serial.begin(9600);
+	// wait for serial port to connect. Needed for native USB port only
+	while (!Serial) {}
     FastLED.addLeds<WS2812, DATA_PIN, GRB>(leds, NUM_LEDS);
-
+    // set the data rate for the SoftwareSerial port (bluetooth connection)
+    mySerial.begin(19200);
 }
 
 void loop() {
+	if (mySerial.available()) mySerialEvent();
+
 	FastLED.setBrightness(10);
 	if (stringComplete) {
 		FastLED.clear(1);
-	    Serial.println(inputString);
+		Serial.println(inputString);
 		Serial.print(F("large String: "));
 		Serial.println(inputString.length());
 		stringComplete = false;
@@ -82,8 +91,8 @@ void loop() {
 		}
 	}
 
-	Serial.print(F("freeMemory()="));
-	Serial.println(freeMemory());
+	mySerial.print(F("freeMemory()="));
+	mySerial.println(freeMemory());
 	delay(500);
 
 }
@@ -121,16 +130,33 @@ void updateMatrix(byte matrixText[], CRGB leds[], uint32_t rgb, int scroll, int 
 	delay(updateTime);
 }
 
-/*
-  SerialEvent occurs whenever a new data comes in the
- hardware serial RX.  This routine is run between each
- time loop() runs, so using delay inside loop can delay
- response.  Multiple bytes of data may be available.
- */
+// serial Event for hardware serial connection (port 0 and 1)
 void serialEvent() {
 	int index = 0;
 	while (Serial.available()) {
 		char a = Serial.read();
+		if (a == '\r' || a == '\n') {
+			stringComplete = true;
+		}
+		else {
+			if(index <= 5){
+				color[index] = a;
+				index ++;
+			}
+			else{
+				inputString += a;
+				index ++;
+			}
+		}
+		delay(2);
+	}
+}
+
+// serial event for software serial connection. Port defined by user (example: port 10 and 11)
+void mySerialEvent(){
+	int index = 0;
+	while(mySerial.available()){
+		char a = mySerial.read();
 		if (a == '\r' || a == '\n') {
 			stringComplete = true;
 		}
