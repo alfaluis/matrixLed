@@ -29,17 +29,20 @@ void updateMatrix(byte [], CRGB [], uint32_t,  int, int = 500);
 String createInterString(String);
 uint8_t returnIndexVowel(char);
 void mySerialEvent();
-
+boolean checkCommand(String);
 
 // **************** Variable definition **************************
 CRGB leds[NUM_LEDS];
 char color[7] = {'0','0','0','0','F','F','\0'};
 String inputString = "";
 int stringLength = 0;
-
+boolean receiveMode = false;
 boolean stringComplete = false;  // whether the string is complete
 boolean newText = false;
 byte byteText [300];
+byte byteText [800];
+int updateTime = 100;
+String prefixDetect [5] = { "AT", "text=", "bright=", "update=", "color=" };
 
 // ********************* main code *******************************
 void setup() {
@@ -133,22 +136,36 @@ void updateMatrix(byte matrixText[], CRGB leds[], uint32_t rgb, int scroll, int 
 // serial Event for hardware serial connection (port 0 and 1)
 void serialEvent() {
 	int index = 0;
-	while (Serial.available()) {
-		char a = Serial.read();
-		if (a == '\r' || a == '\n') {
-			stringComplete = true;
-		}
-		else {
-			if(index <= 5){
-				color[index] = a;
-				index ++;
-			}
-			else{
+	if (!receiveMode) {
+		while (Serial.available()) {
+			char a = Serial.read();
+			if (!(a == '\r' || a == '\n')) {
 				inputString += a;
-				index ++;
 			}
 		}
-		delay(2);
+		receiveMode = checkCommand(inputString);
+		if (receiveMode) {
+			Serial.println("OK");
+			inputString = "";
+		}
+	}
+	else {
+		while (Serial.available()) {
+			char a = Serial.read();
+			if (a == '\r' || a == '\n') {
+				stringComplete = true;
+				receiveMode = false;
+			} else {
+				if (index <= 5) {
+					color[index] = a;
+					index++;
+				} else {
+					inputString += a;
+					index++;
+				}
+			}
+			delay(2);
+		}
 	}
 }
 
@@ -172,6 +189,11 @@ void mySerialEvent(){
 		}
 		delay(2);
 	}
+}
+
+boolean checkCommand(String stringReceived){
+	int indexString = stringReceived.equals("AT");
+	return (indexString != -1);
 }
 
 String createInterString(String text){
